@@ -1,0 +1,6 @@
+.inputBox {
+    display: flex;
+}
+.addButton {
+    cursor: pointer;
+}
