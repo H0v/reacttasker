@@ -4,3 +4,13 @@
 .addButton {
     cursor: pointer;
 }
+.ulContainer {
+    list-style-type: none;
+}
+.checkBoxContainer {
+    display: flex;
+}
+
+.checked {
+    text-decoration: line-through;
+}
