@@ -14,3 +14,6 @@
 .checked {
     text-decoration: line-through;
 }
+.checkboxNone {
+    display: none;
+}

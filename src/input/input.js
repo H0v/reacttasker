@@ -44,6 +44,7 @@ class Input extends React.Component {
         <div className="inputBox">
           <input
             // id ="mainInput"
+            value={this.state.value}
             onKeyDown={this.handleKeyDown}
             onChange={e => this.handleChange(e)}
             placeholder="Type your task"
