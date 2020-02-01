@@ -16,20 +16,13 @@ class Input extends React.Component {
   
   handleKeyDown = (event) => {
     if(event.key === "Enter"){
-      // console.log('it works');
       this.handleSubmit();
     }
   }
 
   handleSubmit = () => {
-    console.log(this.state.value + 1);
-    // debugger;
     let currentValue = this.state.value;
         currentValue = currentValue.replace(/\s\s+/g, ' ').trim();
-
-    // currentValue = currentValue.trim();
-    // debugger;
-    console.log(currentValue);
     if(currentValue !== ""){
       this.props.addNewTask(currentValue);
       this.setState({
@@ -42,6 +35,7 @@ class Input extends React.Component {
     return (
       <>
         <div className="inputBox">
+        <button onClick={this.props.selectAll}>&#10540;</button>
           <input
             // id ="mainInput"
             value={this.state.value}
