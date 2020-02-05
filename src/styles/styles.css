@@ -1,22 +1,215 @@
+body {
+  background-color: #f5f5f5;
+}
+.title {
+  user-select: none;
+  font-family: sans-serif;
+  font-size: 40px;
+  /* margin: 0 auto; */
+  text-align: center;
+  color: #ead7d7;
+}
 .inputBox {
-    display: flex;
+  justify-content: center;
+  display: flex;
 }
 .addButton {
-    cursor: pointer;
+  cursor: pointer;
 }
 .ulContainer {
-    list-style-type: none;
+  list-style-type: none;
+  box-shadow: 1px 10px 25px 8px #ebebeb;
+  width: 600px;
+  padding: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
-.checkBoxContainer {
-    display: flex;
+.taskCheckbox + label span{
+  /* font-size: 50px; */
+  width: 50px;
+  height: 50px;
+}
+.editing {
+  height: 50px;
+  width: 560px;
+  font-size: 25px;
+}
+
+.displayNone {
+  display: none;
 }
 
 .checked {
-    text-decoration: line-through;
+  text-decoration: line-through;
+  color: gray;
 }
+.filterFocus {
+  background-color: #EAD7D7;
+}
+
 .checkboxNone {
-    display: none;
+  display: none;
 }
 .buttonOff {
-    display: none;
+  display: none;
+}
+.filterFooter {
+  width: 600px;
+  height: 50px;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* .abc {
+        border: 2px solid black;
+    } */
+.contentBox {
+  /* width: 250px; */
+  /* display: inline; */
+}
+.filterButton,
+.filterButtonClear {
+  cursor: pointer;
+  outline: none;
+  font-size: 8px;
+  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.4em;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+  list-style: none;
+  color: inherit;
+  margin: 3px;
+  padding: 3px 7px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  border-color: rgba(175, 47, 47, 0.2);
+
+}
+.filterButtonClear {
+  margin-top: 10px;
+  height: 30px;
+}
+li {
+  width: 600px;
+  background: #fff;
+  border-bottom: 1px solid #ebebeb;
+}
+.divContainer {
+  min-height: 50px;
+  display: flex;
+  height: auto;
+  justify-content: space-between;
+
+  overflow: hidden;
+}
+.checkBoxContainer {
+  height: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.textContainer {
+  user-select: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  font-size: 25px;
+  flex-grow: 3;
+}
+
+.inputBox {
+  width: 600px;
+  height: 50px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.delButtonContainer {
+    font-size: 20px;
+    display: block;
+}
+.delButton {
+  /* position: relative; */
+    margin-bottom: 15px;
+    margin-top: 15px;
+    /* padding-left: 570px; */
+    /* padding-right:; */
+    margin-right: 15px;
+    opacity: 0.7;
+    color: pink;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    float: right;
+}
+.delButton:hover{
+    /* font-size: 25px; */
+    font-weight: bolder;
+    opacity: 1;
+    color: red;
+    transition-duration: 0.3s;
+}
+.mainInput {
+  font-size: 30px;
+  width: 100%;
+  border: 1px solid #a5a5a5;
+  border-left: none;
+  outline: none;
+}
+.addButton:first-child {
+  opacity: 0;
+}
+.addButton {
+  /* opacity: 0.5; */
+  transition-duration: 0.5s;
+  width: 80px;
+  border: 1px solid #a5a5a5;
+  border-left: none;
+  background-color: white;
+  outline: none;
+}
+.leftItems {
+  user-select: none;
+  color: #a5a5a5;
+  margin-left: 10px;
+  transition-duration: 1s;
+}
+.addButton:hover {
+  opacity: 1;
+  background-color: #ead7d7;
+  /* font-size: 15px; */
+  transition-duration: 0.5s;
+}
+.checkAllButton {
+  font-size: 20px;
+  transition-duration: 1s;
+  border: none;
+  background: white;
+  color: #a5a5a5;
+  margin-top:7px;
+  margin-left: 14px;
+  outline: none;
+  cursor: pointer;
+}
+.checkAllDiv {
+  width: 70px;
+  background: white;
+  border: 1px solid #a5a5a5;
+  border-right: none;
+}
+.checkAllButton:hover {
+  /* font-weight: bolder; */
+  transition-duration: 1s;
+}
+.filters {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 120px;
+  margin-right: auto;
 }

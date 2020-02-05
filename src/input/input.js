@@ -32,16 +32,23 @@ class Input extends React.Component {
   }
 
   render() {
+    // JSON.parse(localStorage.getItem("tasks")).length === 0 ? "displayNone" : "checkAllButton" 
     return (
       <>
+      <div className = "title">
+      <span>tasker</span>
+      </div>
         <div className="inputBox">
-        <button onClick={this.props.selectAll}>&#10540;</button>
+          <div className="checkAllDiv">
+          <button className={this.props.selectAllClassname}onClick={this.props.selectAll}>&#10003;</button>
+          </div>
           <input
             // id ="mainInput"
             value={this.state.value}
             onKeyDown={this.handleKeyDown}
             onChange={e => this.handleChange(e)}
             placeholder="Type your task"
+            className="mainInput"
           />
           <button className="addButton" onClick={this.handleSubmit}> Add </button>
         </div>

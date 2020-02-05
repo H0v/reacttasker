@@ -4,7 +4,7 @@ import Input from "../input/input";
 class Tasks extends React.Component {
   constructor(props) {
     super(props);
-    const filter = localStorage.getItem("filter") || "all";
+    const filter = JSON.parse(localStorage.getItem("filter")) || "all";
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     const taskId = tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1;
     this.state = {
@@ -13,7 +13,6 @@ class Tasks extends React.Component {
       counter: 0,
       isAllSelected: false,
       filter
-
     };
   }
 
@@ -28,7 +27,7 @@ class Tasks extends React.Component {
       }),
       () => {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
-          }
+      }
     );
   };
 
@@ -93,6 +92,12 @@ class Tasks extends React.Component {
 
   saveChanging = (currentId, event) => {
     if (event.key === "Enter") {
+      const value = event.target.value.replace(/\s\s+/g, " ").trim();
+      console.log(value);
+      if (value === "") {
+        this.deleteTask(currentId);
+      }
+
       this.setState(
         state => ({
           tasks: state.tasks.map(task =>
@@ -128,13 +133,16 @@ class Tasks extends React.Component {
         isAllSelected: !state.isAllSelected
       }),
       () => {
-        this.setState(state => ({
-          ...state,
-          tasks: state.tasks.map(task => ({
-            ...task,
-            isCompleted: state.isAllSelected
-          }))
-        }));
+        this.setState(
+          state => ({
+            ...state,
+            tasks: state.tasks.map(task => ({
+              ...task,
+              isCompleted: state.isAllSelected
+            }))
+          }),
+          () => localStorage.setItem("tasks", JSON.stringify(this.state.tasks))
+        );
       }
     );
   };
@@ -152,88 +160,121 @@ class Tasks extends React.Component {
   showCompleted = () => {
     this.setState(state => ({
       ...state,
-      filter : "completed"
+      filter: "completed"
     }));
-  }
+  };
 
   showAll = () => {
     this.setState(state => ({
       ...state,
-      filter : "all"
+      filter: "all"
     }));
-  }
+  };
   showActives = () => {
     this.setState(state => ({
       ...state,
-      filter : "active"
+      filter: "active"
     }));
-  }
+  };
 
   render() {
+    localStorage.setItem("filter", JSON.stringify(this.state.filter));
     let currentTasks = this.state.tasks;
-     if(this.state.filter === "completed"){
-       currentTasks = this.state.tasks.filter(task => task.isCompleted === true);
-     } else if( this.state.filter === "all") {
-       currentTasks = this.state.tasks;
-     } else if (this.state.filter === "active") {
-       currentTasks = this.state.tasks.filter(task => task.isCompleted === false);
-     }
+    if (this.state.filter === "completed") {
+      currentTasks = this.state.tasks.filter(task => task.isCompleted === true);
+    } else if (this.state.filter === "all") {
+      currentTasks = this.state.tasks;
+    } else if (this.state.filter === "active") {
+      currentTasks = this.state.tasks.filter(
+        task => task.isCompleted === false
+      );
+    }
     return (
       <>
-        <Input selectAll={this.selectAll} addNewTask={this.addNewTask} />
-        <ul className="ulContainer">
-          {currentTasks.map(({ title, id, isCompleted, editing }) => (
-            <li key={`key-${id}`}>
-              <div className="divContainer">
-                <div className="checkBoxContainer">
-                  <input
-                    onClick={() => this.clickCount(id)}
-                    type="checkbox"
-                    checked={isCompleted}
-                    className={editing ? "checkboxNone" : "taskCheckbox"}
-                    id={`checkbox-${id}`}
-                  />
-                  <label htmlFor={`checkbox-${id}`}></label>
-                  <div className="textContainer">
-                    {editing ? (
-                      <input
-                        ref={input => {
-                          this.nameInput = input;
-                        }}
-                        className="editing"
-                        value={title}
-                        onChange={event => this.handleChanging(id, event)}
-                        onKeyDown={event => this.saveChanging(id, event)}
-                      />
-                    ) : (
-                      <>
-                        <span
-                          className={isCompleted ? "checked" : "unchecked"}
-                          onClick={() => this.clickCount(id)}
-                        >
-                          {title}
-                        </span>
-                        <span
-                          className="delButton"
-                          onClick={() => this.deleteTask(id)}
-                        >
-                          &times;
-                        </span>
-                      </>
-                    )}
-                  </div>
+        <div className="contentBox">
+          <Input selectAllClassname={this.state.tasks.length === 0 ? "displayNone" : "checkAllButton" } selectAll={this.selectAll} addNewTask={this.addNewTask} />
+          <ul className="ulContainer">
+            {currentTasks.map(({ title, id, isCompleted, editing }) => (
+              <li key={`key-${id}`}>
+                <div className="divContainer">
+                  <div className="checkBoxContainer">
+                    <input
+                      onClick={() => this.clickCount(id)}
+                      type="checkbox"
+                      checked={isCompleted}
+                      className={editing ? "checkboxNone" : "taskCheckbox"}
+                      id={`checkbox-${id}`}
+                    />
+                    <label htmlFor={`checkbox-${id}`}></label>
+                    </div>
+                      {editing ? (
+                    <div className="textContainer">
+                        <input
+                          ref={input => {
+                            this.nameInput = input;
+                          }}
+                          className="editing"
+                          value={title}
+                          onChange={event => this.handleChanging(id, event)}
+                          onKeyDown={event => this.saveChanging(id, event)}
+                        />
+                        </div>
+                      ) : (
+                        <>
+                    <div className="textContainer">
+                          <span
+                            className={isCompleted ? "checked" : "unchecked"}
+                            onClick={() => this.clickCount(id)}
+                          >
+                            {title}
+                          </span>
+                     </div>     
+                          <div className="delButtonContainer">
+                            <span
+                              className="delButton"
+                              onClick={() => this.deleteTask(id)}
+                            >
+                              &times;
+                            </span>
+                          </div>
+                        </>
+                      )}
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div className="filterFooter">
-          <button onClick={() => this.showAll()}>All</button>
-          <button onClick={() => this.showActives()}>Active</button>
-          <button onClick={() => this.showCompleted()}>Completed</button>
-          <button onClick={() => this.clearCompletedTasks()}>
-            CLear Completed
-          </button>
+              </li>
+            ))}
+          </ul>
+          <div className={this.state.tasks.length === 0 ? "displayNone" : "filterFooter"}>
+            <div className="leftItems">
+              <p>
+                {
+                  this.state.tasks.filter(task => task.isCompleted === false).length === 1 ? ("1 item left") : (this.state.tasks.filter(task => task.isCompleted === false).length + " items left")
+                } 
+              </p>
+            </div>
+            <div className="filters">
+              <button className={"filterButton" + ( this.state.filter === "all"?" filterFocus": "")} onClick={() => this.showAll()}>
+                All
+              </button>
+              <button
+                className={"filterButton" + ( this.state.filter === "active"?" filterFocus": "")}
+                onClick={() => this.showActives()}
+              >
+                Active
+              </button>
+              <button
+                className={"filterButton" + ( this.state.filter === "completed"?" filterFocus": "")}
+                onClick={() => this.showCompleted()}
+              >
+                Completed
+              </button>
+            </div>
+            <button
+              className={ this.state.tasks.filter(task =>task.isCompleted === true).length >= 1 ? "filterButtonClear":"displayNone"}
+              onClick={() => this.clearCompletedTasks()}
+            >
+              Clear Completed
+            </button>
+          </div>
         </div>
       </>
     );
